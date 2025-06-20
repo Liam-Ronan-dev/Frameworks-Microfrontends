@@ -14,7 +14,9 @@ const prodConfig = {
          * name for file - hash for contents of the file
          * For caching issues 
         **/
-        filename: '[name].[contenthash].js' 
+        filename: '[name].[contenthash].js',
+        // Take all file names then prepend them with the public path below - route will be /container/latest/main.js
+        publicPath: '/container/latest/' 
     },
     plugins: [ 
         new ModuleFederationPlugin({
@@ -27,5 +29,5 @@ const prodConfig = {
         })
     ]
 }
-// testing
+
 module.exports = merge(commonConfig, prodConfig)
