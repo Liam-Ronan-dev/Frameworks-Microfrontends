@@ -28,4 +28,6 @@ const prodConfig = {
     ]
 }
 
+//  - uses: shinyinc/action-aws-cli@v1.2
+
 module.exports = merge(commonConfig, prodConfig)
