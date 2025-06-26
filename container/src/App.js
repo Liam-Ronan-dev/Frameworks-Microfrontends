@@ -10,13 +10,14 @@ const generateClassName = createGenerateClassName({
 
 export default () => {
     return (
-            <BrowserRouter>
-                <StylesProvider generateClassName={generateClassName}>
-                    <div>
-                        <Header />
-                        <MarketingApp />
-                    </div>
-                </StylesProvider>
-            </BrowserRouter>
+        // We automatically have a copy of browser history here
+        <BrowserRouter>
+            <StylesProvider generateClassName={generateClassName}>
+                <div>
+                    <Header />
+                    <MarketingApp />
+                </div>
+            </StylesProvider>
+        </BrowserRouter>
     )
 }

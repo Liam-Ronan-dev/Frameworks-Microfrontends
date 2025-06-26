@@ -1,17 +1,23 @@
 import { mount } from 'marketing/MarketingApp'
+import { useHistory } from 'react-router-dom';
 import React, { useRef, useEffect } from 'react'
 
 export default () => {
     const ref = useRef(null);
-
+    const history = useHistory();
 
     useEffect(() => {
-        // the reference to the HTML element were passing into
-        // the mount function
 
-        // mount will take the element and create an instance of
-        // the marketing app
-        mount(ref.current)
+        mount(ref.current, {
+            onNavigate: ({ pathname: nextPathName }) => {
+                // Our current URL path
+                const pathname = history.location
+
+                if(pathname !== nextPathName) {
+                    history.push(nextPathName);
+                }
+            }
+        })
     });
 
     return <div ref={ref}/>
