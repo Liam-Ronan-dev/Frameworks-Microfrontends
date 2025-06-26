@@ -8,7 +8,7 @@ export default () => {
 
     useEffect(() => {
 
-        mount(ref.current, {
+      const { onParentNavigate } = mount(ref.current, {
             onNavigate: ({ pathname: nextPathName }) => {
                 // Our current URL path
                 const pathname = history.location
@@ -18,7 +18,9 @@ export default () => {
                 }
             }
         })
-    });
+
+        history.listen(onParentNavigate);
+    }, []);
 
     return <div ref={ref}/>
 
