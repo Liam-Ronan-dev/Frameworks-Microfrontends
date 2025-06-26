@@ -7,6 +7,8 @@ const prodConfig = {
     mode: 'production',
     output: {
         filename: '[name].[contenthash].js',
+        // whenever we load up remoteEntry.js in prod through the container
+        // the remoteEntry file would know where to find all the files that were created by webpack
         publicPath: '/marketing/latest/'
     },
     plugins: [
