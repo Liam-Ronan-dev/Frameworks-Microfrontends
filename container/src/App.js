@@ -1,9 +1,12 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles'
 
-import MarketingApp from "./components/MarketingApp";
-import AuthApp from "./components/AuthApp";
+// Lazily loading our micro frontend children apps
+const MarketingApp = lazy(() => import("./components/MarketingApp"));
+const AuthApp = lazy(() => import("./components/AuthApp"));
+
+import Loading from "./components/Loading";
 import Header from "./components/Header";
 
 const generateClassName = createGenerateClassName({
@@ -17,10 +20,12 @@ export default () => {
             <StylesProvider generateClassName={generateClassName}>
                 <div>
                     <Header />
-                    <Switch>
-                        <Route path="/auth" component={AuthApp} />
-                        <Route path="/" component={MarketingApp}/>
-                    </Switch>
+                    <Suspense fallback={ <Loading/> }>
+                        <Switch>
+                            <Route path="/auth" component={AuthApp} />
+                            <Route path="/" component={MarketingApp}/>
+                        </Switch>
+                    </Suspense>
                 </div>
             </StylesProvider>
         </BrowserRouter>
