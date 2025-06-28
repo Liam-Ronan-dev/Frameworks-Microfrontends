@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const packageJson = require('../package.json');
 const commonConfig = require('../config/webpack.common');
+const { default: DashboardApp } = require('../src/components/DashboardApp');
 
 // Defined when we build the app through CI/CD Pipeline
 const domain = process.env.PRODUCTION_DOMAIN;
@@ -24,7 +25,8 @@ const prodConfig = {
             remotes: {
                 // Assuming the marketing remoteEntry file is nested in a folder named marketing
                 marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
-                auth: `auth@${domain}/auth/latest/remoteEntry.js`
+                auth: `auth@${domain}/auth/latest/remoteEntry.js`,
+                dashboard: `dashboard@${domain}/dashboard/latest/remoteEntry.js`,
             },
             shared: packageJson.dependencies
         })

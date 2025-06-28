@@ -5,6 +5,7 @@ import { StylesProvider, createGenerateClassName } from '@material-ui/core/style
 // Lazily loading our micro frontend children apps
 const MarketingApp = lazy(() => import("./components/MarketingApp"));
 const AuthApp = lazy(() => import("./components/AuthApp"));
+const DashboardApp = lazy(() => import("./components/DashboardApp"));
 
 import Loading from "./components/Loading";
 import Header from "./components/Header";
@@ -26,9 +27,10 @@ export default () => {
                     <Suspense fallback={ <Loading/> }>
                         <Switch>
                             <Route path="/auth">
-                                <AuthApp onSignIn={() => setIsSignedIn(true)}/>
+                                <AuthApp onSignIn={() => setIsSignedIn(true)} />
                             </Route>
-                            <Route path="/" component={MarketingApp}/>
+                            <Route path="/dashboard" component={DashboardApp} />
+                            <Route path="/" component={MarketingApp} />
                         </Switch>
                     </Suspense>
                 </div>
