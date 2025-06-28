@@ -1,5 +1,6 @@
-import React, { lazy, Suspense, useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { lazy, Suspense, useState, useEffect } from "react";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles'
 
 // Lazily loading our micro frontend children apps
@@ -14,13 +15,23 @@ const generateClassName = createGenerateClassName({
     productionPrefix: 'co'
 })
 
+// To get access to router history
+const history = createBrowserHistory()
+
 
 export default () => {
     const [isSignedIn, setIsSignedIn] = useState(false);
 
+    // Will run whenever value of isSignedIn changes
+    useEffect(() => {
+        if(isSignedIn) {
+            history.push('/dashboard');
+        }
+    }, [isSignedIn])
+
     return (
         // We automatically have a copy of browser history here
-        <BrowserRouter>
+        <Router history={history}>
             <StylesProvider generateClassName={generateClassName}>
                 <div>
                     <Header isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)}/>
@@ -29,12 +40,15 @@ export default () => {
                             <Route path="/auth">
                                 <AuthApp onSignIn={() => setIsSignedIn(true)} />
                             </Route>
-                            <Route path="/dashboard" component={DashboardApp} />
+                            <Route path="/dashboard">
+                                {!isSignedIn && <Redirect to='/'/>}
+                                <DashboardApp />
+                            </Route>
                             <Route path="/" component={MarketingApp} />
                         </Switch>
                     </Suspense>
                 </div>
             </StylesProvider>
-        </BrowserRouter>
+        </Router>
     )
 }
